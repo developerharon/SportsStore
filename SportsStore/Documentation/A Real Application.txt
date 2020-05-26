@@ -8,3 +8,8 @@ I will call out each step needed to build the application so that you can see ho
 
 Configuring the Application
 The Startup class is resposnsible for configuring the ASP.NET Core application.
+The ConfigureServices method is used to set up shared objects that can be used throughtout the application through the dependency injection feature. The AddMvc method that I called in the ConfigureServices method is an extension that sets up the shared objects used in the MVC applications.
+The Configure method is used to set up the features that receive and process HTTP requests. Each method that I called in the Configure method is an extension method that sets up an HTTP request processor.
+
+Next, I need to configure the application for Razor views.
+The @using statement will allow me to use the types in the SportsStore.Models namespace in views without needing to refer to the namespace. The @addTagHelper statement enables the built-in tag helpers, which I use later to create HTML elements that reflect the configuration of the SportsStore application.
