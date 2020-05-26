@@ -60,3 +60,21 @@ Notice that I have set the name of the controller to be Product. This is part of
 Running the Application
 All the basics are in place. I have a controller with an action method that MVC will use when the default URL for the application is requuired. MVC will create an instance of the FakeRepository class and use it to create a new controller object to handle the request. The fake repository will provide the controller with some simple test data, which its action method passes to the Razor view so that the HTML response to the browser will inlcude details for each Product object. When generating the HTML response, MVC will combine the data from the view selected by the action method with the content from the shared layout, producing a complete HTML document that the browser can parse and display. 
 This is the typical pattern of development for ASP.NET Core MVC. An initial investment of time setting everything up is necessary, and then the basic feature of the application snaps together quickly.
+
+
+Preparing a Database
+I can display a simple view that contains details of the products, but it uses the test data that the fake repository contains. Before I can implement a new repository with real data, I need to set up a database and populate it with some data. 
+I am going to use SQL server as the database, and I will access the database using the Entity Framework Core (EF Core), which is the Microsofts .NET object-relational mapping (ORM) framework. An ORM framework presents the tables, columns, and rows of a relational database through regular C# objects.
+Note: This is an area where you can choose from a wide range of tools and technologies. Not only are there different relational database available, but you can also work with object repositories, document stores, and some esoteric alternatives. There are other .NET ORM frameworks as well, each of which take a slightly different approach; these variations may give you a better fit for your projects. 
+I am using Entity Framework Core for several reasons; it is simple to get working, the intergration with LINQ is first-rate, and it works nicely with ASP.NET Core MVC. 
+A nice feature of SQL Server is LocalDb, wich is an administration-free implementation of the basic SQL Server features specifically designed for developers. Using this feature, I can skip the process of setting up a database while I build my project and then deploy to a full SQL Server instance later. Most MVC applications are deployed to hosted environments that are run by professional administrators, so teh LocalDB feature means that database configuration can be left in the hands of DBA, and developers can get on with coding.
+
+Installing the Entity Framework Core Tools Package
+The main EF Core functionality is added to the project by default. We need to add NuGet package to give us command-line tools that are used to create the classes that prepare database to store the application data, known as migrations. You must install this package by editing the file. This type of package cannot be added using the NuGet Package Manager or teh dotnet command-line tools.
+
+Creating the Database Classes
+The database context class is the bridge between the application and Entity Framework Core and provides access to the application's data using model objects.
+The DbContext base class provides access to the EF Core's underlying functionality and the Products property will provide access to the Products objects in the database.
+The ApplicationDbContext class is derived from DbContext and add the properties that will be used to read and write the application's data. There is only one property at the moment, which will provide access to the Product objects.
+
+Creating the Repository Class
