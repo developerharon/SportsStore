@@ -78,3 +78,19 @@ The DbContext base class provides access to the EF Core's underlying functionali
 The ApplicationDbContext class is derived from DbContext and add the properties that will be used to read and write the application's data. There is only one property at the moment, which will provide access to the Product objects.
 
 Creating the Repository Class
+It may not seem like it at the moment, but most of the work required to set up the database is complete. The next step is to create a class that implements the IProduct repository interface and gets its data using EF Core.
+I'll add functionality as I add features to the application, but for the moment, the repository implementation just maps the Products property defined by teh IProductRepository interface onto the Products property defined by the ApplicationDbContext class. The Products property in the context class returns a DbSet<Product> object, which implements the IQueryable<T> interface and makes it easy to implement the IProductRepository interface when using EF Core. This ensures that queries to the database will retrieve only the objects that are required.
+
+Defining the Connection String
+A connection string specifies the location and name of the database and provides configuration settings for how the application should connect to the database server. Connection strings are stored in a JSON File called appsettings.json
+Connection strings must be expressed as a single unbroken line. The value of the connection string specifies that the LocalDB feature should be used for a database called SportsStore.
+
+Configuring the Application
+The next steps are to read the connection string and to configure the application to use it to connect to the database. The job of reading the JSON file is handled by the Program class.
+The constructor I added to the Startup class receives the configuration data loaded from the appsettings.json file, which is presented through an object that implements the IConfiguration interface. The constructor assigns the IConfiguration object to a property called Configuration so that it can be used by the rest of the Startup class.
+We then set up EF Core with the Configure services method.
+The AddDbContext extension method sets up the services provided by EF Core for the database context class. Many of the methods used in the Startup class allow servies and middleware features to be configured using options arguments and the arguments to the AddDbContext method is a lambda expression that receives an options object that configures the databasr for the context class. In this case, we configure the database with the UseSqlServer method and specified the connection string, which is obtained from the Configuration property. The next change was to replace the fake repository with the real one.
+The components in the application that use the IProductRepository interface, which is just the Product controller at the moment, will receive an EFProductRepository object when they are created, which will provide them with access to the data in the database. The effect is that the fake data will be seamlessly replaced by the real data in the database without having to change the ProductController class.
+
+Disabling Scope Verification
+Using Entity Framework Core requires a configuration change to the dependency injection feature. The Program class is responsible for starting and configuring ASP.NET Core before handling control to the Startup class. Without this change an exception will be thrown when you try to create the database scheme in the next section.
