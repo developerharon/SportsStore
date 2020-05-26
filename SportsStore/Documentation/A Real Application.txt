@@ -94,3 +94,7 @@ The components in the application that use the IProductRepository interface, whi
 
 Disabling Scope Verification
 Using Entity Framework Core requires a configuration change to the dependency injection feature. The Program class is responsible for starting and configuring ASP.NET Core before handling control to the Startup class. Without this change an exception will be thrown when you try to create the database scheme in the next section.
+
+Creating the Database Migration
+Entity Framework Core is able to generate the schema for the database using the model classes through a feature called migrations. When you prepare a migration, EF Core creates a C# class that contains the SQL commands required to prepare the database. If you need to modify your model classes, then you can create a new migration that contains the SQL commands required to reflect the changes. In this way, you don't have to worry about manually writing and testing SQL commands and can just focus on the C# model class in the application.
+EF Core commands are performed from the command line. Always remember to navigate to the folder that contains the Statup.cs and appsettings.json files, and run the migrations commands.
