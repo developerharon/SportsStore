@@ -13,3 +13,50 @@ The Configure method is used to set up the features that receive and process HTT
 
 Next, I need to configure the application for Razor views.
 The @using statement will allow me to use the types in the SportsStore.Models namespace in views without needing to refer to the namespace. The @addTagHelper statement enables the built-in tag helpers, which I use later to create HTML elements that reflect the configuration of the SportsStore application.
+
+Checking and Running the Application
+The application and unit test projects are created and configured and ready for development. 
+
+Starting the Domain Model
+All projects start with the domain model, which is the heart of an MVC application. Since this is an e-commerce application, the most obvious model I need is for a product.
+
+Creating a Repository
+I need some way of getting Product objects from a database. The models included the logic for storing and retrieving the data from the persistent data store. I won't worry about how I am going to implement data persistence for the moment, but I will start the process of defining an interface for it. 
+This interface uses IQuearyable<T> to allow a caller to obtain a sequence of Product objects. The IQueryable<T> interface is derived from the more familiar IEnumerable<T> interface and represents a collection of objects that can be queried, such as those managed by a database.
+A class that depends on the IProductRepository interface can obtain Product object without needing to know the details of how they are stored or how the implementation class will deliver them.
+
+Understanding IEnumerable<T> and IQueryable<T> Interfaces
+The IQueryable<T> interface is useful because it allows a collection of objects to be queried efficiently. It allows us to ask the database just the objects the we require using the standard LINQ statements and without needing to know what database server stores that data and how it processes the query. Without the IQueryable<T> interface, I would have to retrieve all of the Product objects from the database and then discard the ones I don't want, which becomes an expensive operation as the amount of data used by the application increases. It is for  this reason that we use the latter in database repository interfaces and classes.
+However, care must be taken when using it because each time the collection of objects is enumerated, the query will be evaluated again, which means that a new query will be sent to the database. The can undermine the efficiency gains of using it. In such situation, you can convert the interface to a more predictable form using the ToList or ToArray extension methods.
+
+Creating a Fake Repository
+Now that I have defined an interface, I could Implement the persistence mechanism and hook it up to a database, but I want to add some other parts of the application first. To do this, I am going to create a fake implementation of the IproductRepository interface that will stand until I return to the topic of data storage. To create the fake repository, I addded a class file called FakeProductRepository.cs to the models folder.
+The class implements the IProductRepository interface by returning a fixed collection of Product objects as the values of the Products property. The AsQueryable method is used to convert the fixed collection of objects to an IQueryable<Product>, which is required to implement the IProductRepository interface that  allows me to create a compatible fake repository without having to deal with real queries.
+
+Register the Repository Service
+MVC empasizes the use of loosely coupled components, which means you can change in one part of the application without having to make corresponding changes else where. This approach categorizes part of the application as services, which provide features that other parts of the applications use. The class that provides a service can then be altered or replaced without requiring changes in the classes that use it.
+I want to create a repository service which allows controllers to get objects that implement the IProductRepository interface without knowing which class is being used. This will allow me to start developing the application using the simple class that I created and then replace it with a real repository later without having to make changes in all of the classes  that need access to the repository. Services are registered in the ConfigureServices method of the Startup class.
+The statement I added tell ASP.NET Core that when a component such as the controller needs an implementation of the IProductRepository interface, it should receive an instance of FakeProductRepository class. The AddTransient method specifies that a new FakeProductRepository object should be created each time the IProductRepository interface is needed. 
+
+Displaying a List of Products
+I could spend the rest of this chapter building out the domain model and the repository and not touch the rest of the application at all. I am going to create a controller and an action method that can display details of the products in the repository. For the moment, this will be for only the data in the fake repository, but I will sort that out later. I will also set up initial routing configuration so that MVC knows how to map requests for the application to the controller I create.
+When MVC needs to create a new instance of the ProductController class to handle an HTTP request, it will inspect the constructor and see that it requires an object that implements the IProductRepository interface. To determine what implementation class should be used, MVC consults the configuration in the Startup class, which tells it that FakeRepository should be used and that a new instance should be created everytime. MVC creates a new FakeRepository object and uses it to invoke the product controller constructor in order to create the controller object that will process the HTTP request. 
+This is known as dependency injection, and its approach that allows controllers contructor to access the application's using an interface without having any need to know which implementation class has been configured. Later, we'll replace the fake repository with the real one, and dependency injection means that the controller will continue to work without changes. 
+Calling the View method like this (without specifying a view name) tells MVC to render the default view for the action method. Passing the collection of product objects from the repository to the View method provides the framework with the data with which to populate the Models object in a strongly typed view.
+
+Adding and Configuring the View
+I need to create a view to present the content to the user, but there are some preparatory steps required that will make writing the view simpler. The first is to create a shared layout that will define common content that will be inlcuded in all HTML responses sent to clients. Shared layouts are a useful way of ensuring that the views are consistent and contain important JavaScript files and CSS stylesheets.
+Next we configure the application so that the layout is applied by default. This is done by adding a View Start file.
+Now we add the view that will be displayed when the List action method is used to handle a request. Views/Product folder
+The @model expression at the top of the file specifies that the view will receive a sequence of Product objects from the action method as it model data. I use a @foreach expression to work through the sequence and generate a simple set of HTML elements for each Product object that is received.
+This view doesn't know where the product objects came from, how they were obtained, or whether they represent all of the products known to the application. Instead, the view deals onl with how the details of each Product is diplayed using HTML elements, which is consistent with the separation of concerns.
+the price.ToString("c") renders numerical values as currency according to the culture settings that are in effect on your server. 
+
+Setting the Default Route
+I need to tell MVC that it should send requests that arrive for the root URL of my application to the List action method in the ProductController class. I do this by editing the statement in the Startup class that sets up the MVC classes that handle HTTP requests. 
+The Configure method of the Startup class is used to set up the request pipeline, which consist of classes (known as middleware) that will inspect HTTP requests and generate response. The UseMvc method sets up the MVC middleware, one one of the configuration options is the scheme that will be used to map URLs to controllers and action methods. 
+Notice that I have set the name of the controller to be Product. This is part of the MVC naming conventions, in which the controller classes names generally end in Controller but you omit this part of the name when referring to the class. 
+
+Running the Application
+All the basics are in place. I have a controller with an action method that MVC will use when the default URL for the application is requuired. MVC will create an instance of the FakeRepository class and use it to create a new controller object to handle the request. The fake repository will provide the controller with some simple test data, which its action method passes to the Razor view so that the HTML response to the browser will inlcude details for each Product object. When generating the HTML response, MVC will combine the data from the view selected by the action method with the content from the shared layout, producing a complete HTML document that the browser can parse and display. 
+This is the typical pattern of development for ASP.NET Core MVC. An initial investment of time setting everything up is necessary, and then the basic feature of the application snaps together quickly.
