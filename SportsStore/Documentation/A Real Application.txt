@@ -1,0 +1,3 @@
+﻿Chapter 8: SportsStore: A real Application
+
+My application, called SportsStore, will follow the classic approach taken by online stores everywhere. 
