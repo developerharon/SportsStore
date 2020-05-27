@@ -140,3 +140,9 @@ Adding the View Model Data
 I am not quite ready to use the tag helpers because I have yet to provide an instance of the PagingInfo view model class to the view. I could do this using the view bag feature, but I would rather wrap all of the data I am going to send from the controller to the view in a single view model class. To do this, I added a class file called ProductsListViewModel.cs to the Models/ViewModels foldeer of the SportsStore project.
 I can update the List action method in the ProductController class to use the ProductsListViewModel class to provide the view with details of the products to display on the page and details of the pagination.
 These changes pass a ProductsListViewModel object as the model data to the view.
+
+Unit Test: Page Model View Data
+I need to ensure that the controller sends the correct pagination data to the view.
+I also need to modify the earlier pagination unit test, contained in the Can_Paginate method. It relies on the List action method returning a ViewResult whose Model property is a sequence of Product objects, but I have wrapped that data inside another view Model type.
+I would usually create a common setup method, given the degree of duplication between these two tests methods. However, since I am delivering the unit tests in individual sidebars like this one, I am going to keep everything separate so you can see each test on its own.
+The view is currently expecting a sequece of Product objects, so I need to update the List.cshtml file to deal with the new view model types.
