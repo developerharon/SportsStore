@@ -116,3 +116,11 @@ The PageSize field specifies that I want four products per page. I have added an
 Unit Test: Pagination.
 I can unit test the pagination feature by creating a mock repository, injecting it into the contructor of the ProductController class, and then calling the List method to request a specific paage. I can then compare the Product objects I get with what I would expect from the test data in the mock implementation.
 It is a little awkward to get the data returned from the action method. The result is a ViewResult object, and I have to cast the value of its viewData.Model property to the expected data type. I explain the different result types that can be returned by action methods and how to work with them later.
+
+Displaying Page Links
+If you run the application, you will see that there are now four items shown on the page. If you want to view another page, you can append query string parameters to the end of the URL.
+You will need to change the port part of the URL to match whatever port has been assigned to your project. Using these query strings, you can navigate through the catalog of products.
+There is no way for customers to figure out that these query string parameters exist, and even if there were, they are not going to want to navigate this way. Instead, I need to render some page links at the buttom of each list of products so that customers can navigate between pages. To do this, I am going to create a tag helper, which generates the HTML markup for the links I require.
+
+Adding the View Model
+To support the tag helper, I am going to pass information to the view about the number of pages available, the current page, and the total number of products in the repository. The easiest way to do this is to create a view model class, which is used specifically to pass data between a controller and a view. I created the Models/ViewModels folder in the SportsStore project and added to it a class file called PagingInfo.cs defined in it.
