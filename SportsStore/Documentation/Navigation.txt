@@ -56,3 +56,6 @@ The unit test for my ability to produce a category list is relatively simple. Th
 I created a mock repository implementation that contains repeating categories and categories that are not in order. I assert that the duplicates are removed and that alphabetical ordering is imposed.
 
 Creating the View
+Razor uses different conventions for dealing with views that are selected by view components. Both the default name of the view and the locations that are searched for the view are different from those used for controllers. To that end, I created the Views/Shared/Components/NavigationMenu folder and added to it a view file called Default.cshtml to which I added the view content.
+This view uses one of the built-in tag helpers, which we'll describe later, to create elements whose href attribute contains a URL that selects a different product category.
+You can see the category links if you run the application. If you click a category, the list of items is updated to show only items from the selected category.
