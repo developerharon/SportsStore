@@ -52,3 +52,7 @@ The constructor defined defines an IProductRepository argument. When MVC needs t
 In the Invoke method, I use LINQ to select and order the set of categories in the repository and pass them as the arguments to the View method, which render the default Razor partial view, details of which are returned from the method using an IViewComponentResult object, a process described later in more details.
 
 Unit Test: Generating the Category List
+The unit test for my ability to produce a category list is relatively simple. The goal is to create a list that is sorted in aplhabetical order and contains no duplicates, and the simplest way to do this is to supply some test data that does have duplicate categories and that is not in order, pass this to the tag helper class, and assert that the data has been properly cleaned up. Here is the unit test, which I defined in a new class file called NavigationMenuViewComponentTests.cs in the SportsStore.Tests project.
+I created a mock repository implementation that contains repeating categories and categories that are not in order. I assert that the duplicates are removed and that alphabetical ordering is imposed.
+
+Creating the View
