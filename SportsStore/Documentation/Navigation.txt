@@ -77,3 +77,8 @@ I need to correct the page links so that they work correctly when a category is 
 I can fix this by updating the List action method in the Product controller so that the pagination information takes the categories into account.
 If a category has been selected, I return the number of items in that category; if not, I return the total number of products. Now when I view a category, the links at the bottom of the page correctly reflact the number of products in the category.
 
+Unit Test: Category-Specific Product Counts
+Testing that I am able to generate the current product count for different categories is simple. I create a mock repository that contains known data in a range of categories and then call the List action method requesting each category in turn.
+Notice that I also call the List method, specifying no category, to make sure I get the correct total count as well.
+
+Building the Shopping Cart
