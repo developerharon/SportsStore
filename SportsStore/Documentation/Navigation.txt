@@ -59,3 +59,11 @@ Creating the View
 Razor uses different conventions for dealing with views that are selected by view components. Both the default name of the view and the locations that are searched for the view are different from those used for controllers. To that end, I created the Views/Shared/Components/NavigationMenu folder and added to it a view file called Default.cshtml to which I added the view content.
 This view uses one of the built-in tag helpers, which we'll describe later, to create elements whose href attribute contains a URL that selects a different product category.
 You can see the category links if you run the application. If you click a category, the list of items is updated to show only items from the selected category.
+
+Highlighting the Current Category
+There is no feedback to the user to indicate which category has been selected. It might be possible to infer the category from the items on the list, but some clear visual feedback seems like a good idea. ASP.NET Core MVC components such as controllers and view components can receive information about the current request by asking for a context object. Most of the time, you can rely on the base classes that you use to create components to take care of getting the context object for you, such as when you use the Controller base class to create controllers.
+The ViewComponent base class is no exception and provides access to context objects through a set of properties. One of the properties is called RouteData, which provides information about how the request URL was handled by the routing system.
+Let's use the RouteData property to access the request data in order to get the value for the currently selected category. I could pass the category to the view by creating another view model class (and that's what I would do in a real project), but for variety, I am going to use the view bag feature we introducted earlier.
+Inside the Invoke method, I have dynamically assigned a SelectedCategory property to the ViewBag object and set its value to be the current category, which is obtained through the context object returned by the RouteData property. The ViewBag is a dynamic object that allows us to define new properties simply by assigning values to them.
+
+Unit test: Reporting the Selected Category
