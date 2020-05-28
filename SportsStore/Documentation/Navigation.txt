@@ -18,3 +18,10 @@ By using null for the category argument, I receive all the Product objects that 
 Keeping your unit tests synchronized with your code changes quickly becomes second nature when you get into the testing mind-set.
 To see the effect of the category filtering, start the application and select a category using the following query string, changing the port to match the one that Visual Studio assigned for your project(and taking care to use an upper case S for Soccer):
 You will see only the Products in the Soccer category.
+Obviously, users won't want to navigate to categories using URLs, but you can see how small changes can have big impact in an MVC application once the basic structure is in place.
+
+Unit Test: Category Filtering
+I need a unit test to properly test the category filtering function to ensure that the filter can correctly generate products in a specified category. Here is the test method I added to the ProductControllerTests tests.
+This test creates a mock repository containig Product objects that belong to a range of categories. Once specific category is requested using the action method, and the results are checked to ensure that the result are the right objects in the right order.
+
+Refining the URL Scheme
