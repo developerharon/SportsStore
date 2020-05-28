@@ -1,0 +1,15 @@
+﻿Chapter 9: Navigation
+In this chapter, I continue to build out the SportsStore example app. In this chapter, I add support for navigating around the application and start building the shopping cart.
+
+Adding Navigation Controls
+The SportsStore application will be more useful if customers can navigate products by category. I will do this in three phases.
+- Enhance the List action model in the ProductController class so that it is able to filter the Product objects in the repository.
+- Revist and enhance the URL scheme
+- Create a category list that will go into the sidebar of the site, highlighting the current category and linking to others
+
+Filtering the Product List
+I am going to start by enhancing the view model class, ProductsListViewModel, which I added to the SportsStore project in the previous chapter. I need to communicate the current category to the view in order to render the sidebar, and this is a good place to start as any. 
+I added a property called CurrentCategory. The next step is to update the ProductController so that the List action method will filter Product objects by category and use the new property I added to the view model to indicate which category has been selected.
+I made three changes to the action method. First, I added a parameter called category. This category parameter is used by the second change in the listing, which is an enhancement to the LINQ query: if category is not null, only those Product objects with a matching Category property are selected. The last change is to set the value of the CurrentCategory property I added to the ProductsListViewModel class. However, these changes mean that the value of PagingInfo.TotalItems is incorrectly calculated because it doesn't take the category filter into account. I will fix this in a while.
+
+Unit Test: Updating Existing Unit Tests
