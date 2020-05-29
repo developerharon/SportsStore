@@ -82,3 +82,20 @@ Testing that I am able to generate the current product count for different categ
 Notice that I also call the List method, specifying no category, to make sure I get the correct total count as well.
 
 Building the Shopping Cart
+The application is progressing nicely, but I cannot sell any products until I implement a shopping cart. In this section, I will create the shopping cart experience. This will be familiar to anyone who has ever made a purchase online.
+An Add to Cart button will be displayed alongside each of the producct in the catalog. Clicking this button will show a summary of the products the customer has selected so far, including the total cost.  At this point, the user can click the Continue shopping button to return to the product catalog or click the checkout Now button to complete the order and finish the shopping session.
+
+Defining the Cart Model
+I started by adding a class file  called Cart.cs to the Models folder in and used it to define a class.
+The Cart class uses the CartLine class, defined in the same file, to represent a product selected by the customer and the quantity the user wants to buy. I defined methods to add an item to the cart, remove a previously added item from the cart, calculate the total cost of the items in the cart, and reset the cart by removing all the items. I also provided a property that gives access to the contents of the cart using an IEnumerable<Cartline>. This is all straightforward stuff, easily implemented in the C# with the help of a litte LINQ. 
+
+Unit Test: Testing The Cart
+The Cart class is relatively simple, but it has a range of important behaviours that must work properly. A poorly functioning cart would undermine the entire SportsStore application. I have broken down the features and tested them individually. I created a new unit test file called CartTests.cs in the SportsStore.Tests project called to contain these tests. 
+The first behaviour relates to when I add an item to the cart. If this is the first time that a given Product has been added to the cart, I want a new Cartline to be added. Here is the test, inluding a unit test class definition.
+However, if the customer has already added a Product to the cart, I want to increment the quantity of the corresponding CartLIne and not create a new one. Here is the test:
+I also need to check that users can change their mind and remove products from the cart. This feature is implemented by the RemoveLine method. Here is the test:
+The next behaviour I want to test is the ability to calculate the total cost of the items in the cart. Here's the test for this behaviour:
+The final test is simple. I want to ensure that the contents of the cart are properly removed when reset. Here is the test:
+Sometimes, as in this case, the code required to test the functionality of a class is longer and more complex than the class itself. Do not let that put you off writing the unit tests. Defects in simple classes can have huge impacts, especially ones that play such an important role as Cart does in the example application.
+
+Adding the Add to Cart Buttons
