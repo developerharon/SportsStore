@@ -115,3 +115,4 @@ There are a few points to note about this controller. The first is that I use th
 For the AddToCart and RemoveFromCart action methods, I have used parameter names that match the input elements in the HTML forms created in the ProductSummary.cshtml view. This allows MVC to associate incoming form POST variables with those parameters, meaning that I do not need to process the form myself. This is known as model binding and is a powerful tool for simplifying controller classes, we'll look at this later.
 
 Defining Session State Extension Methods
+The session state feature in ASP.NET Core stores only int, string and byte[] values. Since I want to store a Cart object, I need to define extension methods to the ISession interface, which provides access to the session state data to serialize Cart objects into JSON and convert them back. I added a class file called SessionExtensions.cs to the Infrastructure folder and defined the extension methods for those purpose.
