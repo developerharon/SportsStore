@@ -1,1 +1,14 @@
-﻿
+﻿Chapter 10: SportsStore: Completing the Cart
+In this chapter, I continue to build the SportsStore example app. In the previous chapter, I added the basic support for a shopping cart, and now I am going to improve on and complete the functionality
+
+Refing the Cart Model with a Service
+I defined a Cart model class in the previous chapter and demonstrated how it can be stored using session feature, allowing the user to build up a set of products for purchase. The responsibility for managing the persistence of the Cart class fell to the Cart controller, which explicitly defines method for getting and storing Cart objects. 
+The problem with this approach is that I will have to duplicate the code that obtains and stores Cart objects in any component that uses them. In this section, I am going to use the service feature that sits at the heart of ASP.NET Core to simplify the way that Cart objects are managed, freeing individual components such as the Cart controller from needing to deal with the details directly.
+Servives are most commonly used to hide details of how interfaces are implemented from the components that depend on them. You saw an example of this when I created a service for the IProductRepository interface, which allowed me to seamlessly replace the fake repository class with the Entity Framework Core repository. But services can be used to solve lots of other problems as well and can be used to shape and reshape an application, even when you're working with concrete classes such as Cart.
+
+Creating a Storage-Aware Cart Class
+The first step in tidying up the way that the Cart class is used will be to create a subclass that is aware of how to store itself using session state. I added a class file called SessionCart.cs to the Models folder and used it to define a class.
+The SessionCart class subclasses the Cart class and overrides the AddItem, RemoveLine, and Clear methods so they call the base implementation and then store the updated state in the session using the extension methods on the ISeersion interface defined earlier on. The static GetCart method is a factory for creating SessionCart objects and providing them twith an ISession object so they can store themselves.
+Getting hold of the ISession object is a little complicated. I have to obtain an instance of the IHTTpContextAccessor serive, which provides me with access to an HttpContext object that, in turn, provides me with the Issession. This indirect approach is required because the session isn't provided as a regular service.
+
+Registering the Service.
