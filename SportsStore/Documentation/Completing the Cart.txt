@@ -38,3 +38,9 @@ I selected the SportsStore project and clicked the Show All Items button at the 
 When the bower.json file is saved, Visual Studio uses Bower to download and install the Font Awesome package in www/lib/fontawesome folder.
 
 Creating the View Component Class and View
+I added a class file called CartSummaryViewComponent.cs in the Components folder and used it to define the view component.
+This view component is able to take advantage of the service that I created earlier in the chapter in order to receive a Cart object as a constructor argument. The result is a simple view component class that passes on the Cart object to the View method in order to generate the fragment of HTML that will be included in the layout. To create the layout, I created the Views/Shared/Components/CartSummary folder, and added to it a Razor view file called Default.cshtml, and added some markup.
+The view displays a button with the Font Awesome cart icon and, if there are items in teh cart, provides a snapshot that details the number of items and their total value. Now that I have a view component and a view, I can modify the shared layout so that the Cart summary is included in the response generateds.
+You can see the cart summary by starting the application. When the cart is empty, only the checkout button is shown. If you add items to the cart, then the number of items and their combined cost are shown. With this addition, customers can know what is in their cart and have an obvious way to check out from the store.
+
+Submitting Orders
