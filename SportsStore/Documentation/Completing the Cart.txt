@@ -12,3 +12,9 @@ The SessionCart class subclasses the Cart class and overrides the AddItem, Remov
 Getting hold of the ISession object is a little complicated. I have to obtain an instance of the IHTTpContextAccessor serive, which provides me with access to an HttpContext object that, in turn, provides me with the Issession. This indirect approach is required because the session isn't provided as a regular service.
 
 Registering the Service.
+The next step is to create a service for the Cart class. My goal is to satisfy requests for Cart objects with SessionCart objects that will seamlessly store themselves. You can see how I created the service.
+The AddScoped method specifies that the same object should be used to satify related requests for Cart instances. How requests are related can be configured, but by default, it means that any Cart required by components handling the same HTTP request will receive the same object.
+Rather than provide the AddScoped method with a type mapping, as I did for the repository, I have specified a lambda expression that will be invoked to satify Cart requests. The expression receives the collection of services that have been registered and passes the collection to the GetCart method of the SessionCart class. The result is that requests for the Cart services will be handled by creating SessionCart objects, which will serialize themselves as session data when they are modified.
+I also added a service using the AddSingleton method, which specifies that the same object should always be used. The service I created tells MVC to use the HttpContextAccessor class when implementations of the IHttpContextAccessor interfaces are required. This service is required so I can access the current session in the SessionCart clss.
+
+Simplifying the Cart Controller
