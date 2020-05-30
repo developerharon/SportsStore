@@ -18,3 +18,7 @@ Rather than provide the AddScoped method with a type mapping, as I did for the r
 I also added a service using the AddSingleton method, which specifies that the same object should always be used. The service I created tells MVC to use the HttpContextAccessor class when implementations of the IHttpContextAccessor interfaces are required. This service is required so I can access the current session in the SessionCart clss.
 
 Simplifying the Cart Controller
+The benefit of creating this kind of service is that it allows me to simplify the controllers where Cart objects are used. I have reworked the CartControler class to take advantage of this new service.
+The CartController class indicates that it needs a cart object by declaring a constructor argument, which has allowed me to remove the method that read and write data from the session and the steps required to write updates. The result is a controller that is simpler and remains focused on its role in the application without having to worry about how Cart objects are created or persisted. And, since services are available throughout the application, any component can get hold of the user's cart using the same technique.
+
+Completing the Cart Functionality
