@@ -44,7 +44,7 @@ namespace SportsStore.Controllers
 
         private Cart GetCart()
         {
-            Cart cart = HttpContext.Session.GetJson("Cart") ?? new Cart();
+            Cart cart = HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart();
             return cart;
         }
 
