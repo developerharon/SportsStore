@@ -22,3 +22,19 @@ The benefit of creating this kind of service is that it allows me to simplify th
 The CartController class indicates that it needs a cart object by declaring a constructor argument, which has allowed me to remove the method that read and write data from the session and the steps required to write updates. The result is a controller that is simpler and remains focused on its role in the application without having to worry about how Cart objects are created or persisted. And, since services are available throughout the application, any component can get hold of the user's cart using the same technique.
 
 Completing the Cart Functionality
+Now that I have introduced the Cart service, it is time to complete the cart functionality by adding two new features. The first will allow the customers to remove an item from the cart. The second feature will display a summary of the cart  at the top of the page.
+
+Removing Items from the Cart
+I already defined and tested the RemoveFromCart action method in the controller, so letting the customer remove items is just a matter of exposing this method in a view, which I am going to do by adding a Remove button in each row of the cart summary.
+I added a new column to each row of the table that contains a form with hidden input elements that specify the product to be removed and the returnUrl, along with a button that submits the form. You can see the Remove buttons at work by running the application and adding items to the shopping cart. Remember that the cart already contains teh functionality to remove it, which you can test by clicking one of teh new buttons.
+
+Adding the Cart Summary Widget
+I may have a functioning cart, but there is an issue with the way it is intergrated into the interface. Customers can tell what is in their cart only by viewing the cart summary screen. And they can view the cart summary screen only by addinga new item to the cart.
+To solve this problem, I am going to add a widget that summarizes the content of the cart and that can be blicked to display the cart contents throughout the application, I will do this in much the same way that I added the navigation widget - as a view component whose output I can include in the Razor shared layout.
+
+Adding the Font Awesome Package
+As part of the cart summary, I am going to display a button that allows the users to check out. Rather than display the word checkout in the button, I want to use a cart symbol. Since I have no artistic skills, I am going to use the Font Awesome package, which is an excellent set of open source icons that are intergrated into applications as fonts, where each character in the font is a different image. You can learn more about Font Awesome, including inspecting the icons that it contains at their site.
+I selected the SportsStore project and clicked the Show All Items button at the of of the Solution Explorer to reveal the bower.json file. I then added the Font Awesome package to the dependencies section.
+When the bower.json file is saved, Visual Studio uses Bower to download and install the Font Awesome package in www/lib/fontawesome folder.
+
+Creating the View Component Class and View
