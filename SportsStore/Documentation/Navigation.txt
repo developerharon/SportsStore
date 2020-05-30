@@ -122,3 +122,15 @@ The HttpContext property is provided by the Controller base class from which con
 The type parameter lets me specify the type that I expect to be retrieved, which is used in the deserialization process.
 
 Displaying the Content of the Cart
+The final point to note about the Cart controller is that both the AddToCart and RemoveFromCart methods call the RedirectToAction method. This has the effect of sending an HTTP redirect instruction to the client browser, asking the browser to request a new URL. In this case, I have asked the browser to request a URL that will call the Index action method of the Cart controller
+I am going to implement the Index method and use it to display the contents of the Cart. If you refer back, you will see that this is the workflow when the user clicks the Add to Cart button.
+I need to pass two pieces of information to the view that will display the contents of the cart: the Cart object and the URL to display if the user clicks the Continue Shopping button. I create a new class file called CartIndexViewModel.cs in the Models/viewModels folder of the SportsStore project and used it to define a class.
+Now I have the view model, I can implement the Index antion method in the Cart controller class.
+The Index action, retrieves the Cart object fom the session state and uses it to create a CartIndexViewModel object, which is then passed to the View method to be used as the View model.
+The last step to display the contents of the cart is to create the view that the Index action will render. I created the Views/Cart folder and added to it a Razor view file called Index.cshtml with some markup.
+The view enumerates the lines in the cart and adds rows for each of them to an HTML table, along with the total cost per line and the total cost for the cart. The classes to which I assigned the elements correspond to Bootstrap styles for tables and text-alignment..
+The result is that the basic functions of the shopping cart are in place. First products are listing along with a button to add them to the cart
+Second, when the user clicks the Add to Cart button, the appropriate product is added to their cart, and a summary of the cart is diplayed. Clicking the Continue Shopping button returns the user to the product page they came from.
+
+Summary
+In this chapter, I started to flesh out the customer facing parts of the SportsStore app. I provided the means by which the user can navigate by category and put the basic building blocks in place for adding items to a shopping cart. I have more work to do, and I continue the development of the application in the next chapter.
