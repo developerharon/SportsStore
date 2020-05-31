@@ -55,3 +55,8 @@ Adding the Checkout Process
 The goal is to reach the point where users are able to enter their shipping details and submit their orders. To start, I need to add a checkout button to the cart summary view.
 This change generates a link that I have styled as a button and that, when clicked, calls the Checkout action method of the Order controller, which I create in the following section. You can see how this button appears.
 I now need to define the Order controller. I added a class file called OrderController.cs to the Controllers folder and used it to define a class.
+The Checkout method returns the default view and passes a new ShippingDetails object as the view model. To create the view, I created the Views/Order folder and added a Razor view file called Checkout.cshtml having some markup.
+For each of the properties in the model, I have created a label element and an input element to capture the user input, formatted with Bootstrap. The asp-for attribute on the input element is handled by a built-in tag helper that generates the type, id, name and value attributes based on the specific model property.
+You can see the effect of the new action method and view by starting the application, clicking the cart button at the top of the page, and then clicking the checkout button. You can also reach this point by requesting the /Cart/Checkout URL.
+
+Implementing Order Processing
