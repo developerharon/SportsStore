@@ -12,3 +12,11 @@ dotnet ef migrations add ShippedOrders
 The migration will be applied automatically when the application is started as the SeedData class calls the Migrate method provided by Entity Framework Core.
 
 Adding the Actions and Views
+The functionality required to display and update the set of orders in the database is relatively simple because it builds on the features and infrastructure that I created in previously. I need to add two new action methods to the Order Controller
+The List method selects all the Order objects in the repository that have a shipped value of false and passes them to the default view. This is the action method that I will use to display a list of the unshipped orders to the administrator.
+The MarkShipped method will receive a POST request that specifies the ID of an order, which is used to locate the corresponding Order object from the repository so that the Shipped property can be set to true and saved.
+To display the list of unshipped orders, I added a Razor view file called List.cshtml to the Views/Order folder and added some markup. A table element is used to display some of the details from each other, including details of which product have been purchased.
+Each order is displayed with a Ship button that submits a form to the MarkShipped action method. I specified a different layout for the List view using the Layout property, which overrides the layout specified in the _ViewStart.cshtml file.
+To add the layout, I use the MVC layout page item template to create a file called _AdminLayout.cshtml in the Views/Shared folder, and add some markup
+To see and manage the orders in the application, start the application, select some products, and then check out. Then navigate to the /Order/List URL and you will see a summary of the orders you created. Click the Ship button; the database will be updated, and the list of pending orders will be empty.
+Note: At the moment, there is nothing to stop customers from requesting the Order/List URL and administering their own orders. I explain how to restrict access to action method in a bit.
