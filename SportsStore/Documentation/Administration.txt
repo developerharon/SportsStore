@@ -74,3 +74,10 @@ So, the temp data feature is the perfect fit. The data is restricted to a single
 
 Unit Test: Edit Submissions
 For the POST-processing Edit action method, I need to make sure that valid updates to the Product object, which is received as the methods argument, are passed to the product repository to be saved. I also want to check that invalid updates (where a model validation error exists) are not passed to the repository. Here are the test methods, which I added to the AdminControllerTests.cs file
+
+Displaying a Confirmation Message
+I am going to deal with the message I stored using TempData in the _AdminLayou.cshtml layout file. By handing the message in the template, I can create message in any view that uses the template without needing to create additional Razor expressions.
+Tip: The benefit of dealing with the message in the template like this is that users will see it displayed on whatever page is rendered after they have saved changed. At the moment, I return them to the list products, but I could change the workflow to render some other view, and the user will still see the message (as long as teh enxt view also uses the same layout).
+I now have all the pieces in place to edit the product. To see how it all works out, start the appllication, navigate to the /Admin/Index URL, click the Edit button, and make changes. Click the Save button. You will be redirected to teh /Admin/Index URL, and the TempData message will be displayed. The message will disappear if you reload the product list because TempData is deleted when it is read. That is convenient since I do not want old messages hanging around.
+
+Adding Model Validation
