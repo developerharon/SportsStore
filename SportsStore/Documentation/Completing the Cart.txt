@@ -60,3 +60,18 @@ For each of the properties in the model, I have created a label element and an i
 You can see the effect of the new action method and view by starting the application, clicking the cart button at the top of the page, and then clicking the checkout button. You can also reach this point by requesting the /Cart/Checkout URL.
 
 Implementing Order Processing
+I will process orders by writing them to the database. Most e-commerce sites would not simply stop there, of course, and I have not provided supoort for processing credit cards or other forms of paymet. But I want to keep things focused on MVC, so a simple database entry will do.
+
+Extending the Database
+Adding a new kind of model to the database is simple once the basic plumbing that I created earlier is in place. First, I added a new property to the database context class.
+This change is enough for Entity Framework Core to create a database migration that will allow Order objects to be stored in the database. To create the migration, open a new cmd, navigate to the projects folder and run appropriate commands.
+The commands tells Entity Framework Core to take a new snapshot of the application data model, work out how it differs from the previous database version, and generate a new migration called Orders. The new migration will be applied automatically when the application starts because SeedData calls the Migrate method provided by Entity Framework core.
+
+Resetting the Database
+When you're making frequent changes to the model, there will come a point when your migrations and your database schema get out of sync. The easiest thing to do is delete the database and start over. However, this applies during development, of course, because you will lose any data you have stored. To delete the database, run the following command:
+dotnet ef database drop --force
+Once the database has been removed, run the following command from the project's folder to recreate the database and apply the migrations you have created by running the following command.
+dotnet ef database update
+This will reset the database so that it accurately reflects your model and allow you to return to developing your application.
+
+Creating the Order Repository
