@@ -20,3 +20,13 @@ Each order is displayed with a Ship button that submits a form to the MarkShippe
 To add the layout, I use the MVC layout page item template to create a file called _AdminLayout.cshtml in the Views/Shared folder, and add some markup
 To see and manage the orders in the application, start the application, select some products, and then check out. Then navigate to the /Order/List URL and you will see a summary of the orders you created. Click the Ship button; the database will be updated, and the list of pending orders will be empty.
 Note: At the moment, there is nothing to stop customers from requesting the Order/List URL and administering their own orders. I explain how to restrict access to action method in a bit.
+
+Adding Catalog Management
+The convention for managing more complex collections of items is to present the user with two types of pages: a list page and an edit page.
+Together, these pages allow a user to create, read, update and delete items in the collection. Collectively, these actions are known as CRUD. Developers need to implement CRUD so often that Visual Studio Scaffolding include scenarios for creating CRUD controllers with predefined action methods. But like all Visual Studio templates, I think it is better to learn how to use the fetures of the ASP.NET Core MVC directly.
+
+Creating the CRUD controller
+I am going to start by creating a separate controller for managing the product catalog. I added a class file called AdminController.cs to the Controllers folder and added some code.
+The controller constructor declarea a dependency on the IProductRepository interface, which will be resolved when the instances are created. The controller defines a single action method Index that calls the View method to select the default view for the action, passing the set of products in the database as the view model.
+
+Unit Test: The Index Action
