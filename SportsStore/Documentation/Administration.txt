@@ -1,3 +1,14 @@
 ﻿Chapter 11: SportsStore: Administration
 In this chapter I continue to build the SportsStore application to give the side adminstrator a way of managing orders and products
 
+Managing Orders
+In the previous chapter, I added support for receiving orders from customers and storing them in a database. In this chapter, I am going to create a simple administration tool that will let me view the orders that have been received and mark them as shipped.
+
+Enhancing the Model
+The first change I need to make is to enhance the model so that I can record which orders have been shipped. I add a new property to the Order class, which is defined in the Order.cs file in the Models folder.
+This iterative approach of extending and adapting the model to support different features is typicall of MVC development. In an ideal world, you would be able to completely define the model classes at the start of the project and just build the application around them, but that happens only for the simplest projects, and, in practice, iterative development is to be expected as the understanding of what is required develops and evolves.
+Entity Framework Core migrations make this process easier because you don't have to manually keep the database schema synchronized to the model class by writing your own SQL commands. To update the database to reflect the addition of the Shipped propert to the Order class, open a new cmd, navigate to the project folder(which is the one that contains the Startup.cs file) and run the following command:
+dotnet ef migrations add ShippedOrders
+The migration will be applied automatically when the application is started as the SeedData class calls the Migrate method provided by Entity Framework Core.
+
+Adding the Actions and Views
