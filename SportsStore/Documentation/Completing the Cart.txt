@@ -44,3 +44,14 @@ The view displays a button with the Font Awesome cart icon and, if there are ite
 You can see the cart summary by starting the application. When the cart is empty, only the checkout button is shown. If you add items to the cart, then the number of items and their combined cost are shown. With this addition, customers can know what is in their cart and have an obvious way to check out from the store.
 
 Submitting Orders
+I have now reached the final customer feature in SportsStore: the ability to check out and complete an order. In the following sections, I will extent the domain model to provide support for capturing the shipping details from a user and add the application support to process those details.
+
+Creating the Model class
+I added a class file called Order.cs to the Models folder and edited it to match the content shown below. This is the class I will use to represent the shipping details for a customer.
+I am adding the validation attribute from the System.ComponentModel.DataAnnotations namespace. We'll do validation later.
+I also use the BindNever attribute, which prevents the user from supplying values for these properties in an HTTP request. This is a feature of model binding system; it stops MVC using value from the HTTP request to populate sensitive or important model properties.
+
+Adding the Checkout Process
+The goal is to reach the point where users are able to enter their shipping details and submit their orders. To start, I need to add a checkout button to the cart summary view.
+This change generates a link that I have styled as a button and that, when clicked, calls the Checkout action method of the Order controller, which I create in the following section. You can see how this button appears.
+I now need to define the Order controller. I added a class file called OrderController.cs to the Controllers folder and used it to define a class.
