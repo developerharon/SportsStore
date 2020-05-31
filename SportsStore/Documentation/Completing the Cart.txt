@@ -87,3 +87,10 @@ This ensures that Entity Framework Core won't try to write the deserialized Prod
 Next I have to register the order repository as a service in the ConfigureServices method of the Startup class.
 
 Completing the Order Controller
+To complete the OrderController class, I need to modify the constructor so that it receives the services it requires to process an order, and I need to add a new action method that will handle the HTTP form POST request when the user clicks the Complete Order button.
+The Checkout action method is decorated with the HttpPost attribute, which means that it will be invoked for a POST request - in this case, when the user submits the form. Once again, I am relying on the model binding system so that I can receive the Order object, which I them complete using data from the Cart and store in the repository.
+MVC checks for validation constrains that I applied to the Order class using the data annotation attributes, and any validation problems are passed to the action method through the ModelState property. I can see whether there are any problems by checking the ModelState.IsValid property. I call the ModelState.AddModelError method to register an error message if ther are no items in the Cart. I will explain how to display such error shortly, and I have much more to say about model binding and validation later.
+
+Unit Test: Order Processing
+To perform unit testing for the OrderController class, I need to test the behavior of the POST version of the Checkout method. Although the method looks short and simple, the use of MVC model binding means that there is a lot going on behind the scenes that needs to be tested.
+I want to process an order only if there are items in the cart and the customer has provided valid shipping details. Under all other circumstances, the customer should be shown an error. Here is the first method, which I defined in a class file called OrderControllerTests.cs in the SportsStore.Tests project
