@@ -75,3 +75,15 @@ dotnet ef database update
 This will reset the database so that it accurately reflects your model and allow you to return to developing your application.
 
 Creating the Order Repository
+I am going to follow the same pattern I used for the product repository to provide access to the Order objects. I added a class file called IOrderRepository.cs to the Models folder and used it to define an interface.
+To implement the order repository interface, I added a class file called EFOrderRepository.cs to the Models folder and defined a class to it.
+This class implements IOrderRepository using Entity Framework Core, allowing the set of Order objects that have been stored to be retrieved and allowing orders to be created or changed.
+
+Understanding the Order Repository
+There is a little extra work required to implement the repository for the orders. Entity Framework Core requires instruction to load related data if it spans multiple tables. I used the Include and ThenInclude methods to specify that when an Order object is read from the database, the collection associated with the Lines property should also be loaded along with each Product object associated with the line collection object.
+This ensures that I receive all the data objects that I need without having to perform the queries and assemble data directly.
+An additional step is required when I store an Order object in the database. When the user's cart data is deserialized from the session store, the JSON package creates new objects that are not known to Entity Framework Core, which then tries to write all the objects into the database. For the Product objects, this means that Entity Framework Core tries to write objects that have already been stored, which causes an error. To avoid this problem, I notify Entity Framework Core that the Objects exist already and shouldn't be stored in the database unless they are modified, as follows.
+This ensures that Entity Framework Core won't try to write the deserialized Product objects that are associated with the Order object.
+Next I have to register the order repository as a service in the ConfigureServices method of the Startup class.
+
+Completing the Order Controller
