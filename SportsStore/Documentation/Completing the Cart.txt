@@ -106,3 +106,8 @@ Tip: The data submitted by the user is sent to the server before it is validated
 
 Displaying a Summary Page
 To compelete the checkout process, I need to create a view that will be shown when the browser redirected to the completed action on the Order controller. I added a Razor view file called Completed.cshtml to the Views/Order folder and added some markup.
+I don't need to make any code changes to intergrate this view into the application because I already added the required statement when I defined the Completed action method. Now customers can go through the entire process, from selecting the products to checking out. If they provide valid shipping details (and have items in their cart), they will see the summary page when they click the Complete Order buttons.
+
+Summary
+I have completed all the major parts of the customer facing portion of SportsStore. It might not be enough to worry Amazon, but I have a product catalog that can be browsed by category and page, a neat shopping cart, and a simple checkout process.
+The well-separated architecture means I can easily change the behaviour of any piece of the application without causing problems or inconsistence elsewhere. For example, I could change the way that orders are stored and it would not have any impact on the shopping cart, the product catagog, or any other area of the application, In the next chapter, I added the features required to administer the SportsStore application.
