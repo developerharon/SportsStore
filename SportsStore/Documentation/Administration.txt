@@ -30,3 +30,7 @@ I am going to start by creating a separate controller for managing the product c
 The controller constructor declarea a dependency on the IProductRepository interface, which will be resolved when the instances are created. The controller defines a single action method Index that calls the View method to select the default view for the action, passing the set of products in the database as the view model.
 
 Unit Test: The Index Action
+The behavior that I care about for the Index method of the Admin Controller is that it correctly returns the Product objects that are in the repository. I can test this by creating a mock repository implementation and comparing the test data with the data returned by the action method. Here is the unit test, which I placed into a new unit test file called AdminControllerTests in the SportsStore.UnitTests project.
+I added a GetViewModel method to the test to unpack the result from the action method and get the view model data. I'll be adding more tests that use this method later in the chapter.
+
+Implementing the List View
