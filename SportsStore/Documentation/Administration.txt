@@ -37,3 +37,15 @@ Implementing the List View
 The next step is to add a view for the Index action method of the Admin controller. I created the Views/Admin folder and added a razor file to it called Index.cshtml.
 This view contains a table that has a row for each product with cells that contain the name of the product, the price and the buttons that will allow the product to be edited or deleted by sending a request to Edit and Delete actions. In addition to the table. there is an Add Product button that targets the Create action. Ill add the Edit, Delete, and Create action in the sections that follow, but you can see how the products are displayed by starting the application and requesting the /Admin/Index URL.
 Tip: The Edit button is inside the form element so that the two buttons sit next to each other, working around the spacing that bootsrap applies. The Edit button will send an HTTP GET request to the server to get the current details of the product; this doesn't require a form element. However, since the Delete button will make a change to the application state, I need to use an HTTP POST request - and that does require the form element.
+
+Editing Products
+To provide create and udpate features, I will add a product-editing page like the one we sketched earlier on. These are the two parts of this job:
+- Display a page that will allow the administrator to change values for the properties of a product.
+- Add an action method that can process those changes when they are submitted.
+
+Creating the Edit action method
+We add this action method to the Admin controller, which will receive the HTTP request sent by the browser when the user clicks an Edit button.
+This simple method finds the produt with the ID that corresponds to the productId parameter and passes it as a view model object to the View method.
+
+Unit Test: The Edit Action Method
+I want to test for two behaviours in the Edit action method. The first is that I get the product I ask for when I provide a valid ID value to make sure that I am editing the product I expected. The second behavior to test is that I do not get any product at all when I request an ID value that is not in the repository. Here are the test methods I added to the AdminControllerTests.cs class file:
