@@ -1,0 +1,3 @@
+﻿Chapter 11: SportsStore: Administration
+In this chapter I continue to build the SportsStore application to give the side adminstrator a way of managing orders and products
+
