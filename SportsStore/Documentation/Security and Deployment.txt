@@ -13,3 +13,7 @@ Note: You might be used to adding packages to the project to get additional feat
 The AppIdentityDbContext class is derived from IdentityDbContext, which provides Identity-specific features for Entity Framework Core. For the type parameter, I used the IdentityUser class, which is the built-in class used to represent users. Later we look at how to use a custom class that you can extend to add extra information about the users in your application.
 
 Defining the Connection String
+The next step is to define the connection string that will be for the database. This is done in the appsettings.json file of the SportsStore project, which follows the same format as the connection string that I defined for the product database.
+Remember that the connection string has to be defined in a single unbroken line in the appsettings.json file and I shown in multiple lines because of the fixed width of a book page. The addition defines a connection string called SportStoreIdentity that specifies a LocalDB database called Identity
+
+Configuring the Application
