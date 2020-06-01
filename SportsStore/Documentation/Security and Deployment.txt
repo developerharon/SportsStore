@@ -34,3 +34,8 @@ This code uses the UserManager<T> class, which is provided as a service by ASP.N
 
 Caution: Hard-Coding the details of the administrator account is often required so that  you can log into an application once it has been deployed and start administering it. When you do this, you must remember to change the password for the account you have created. We'll see later how to change password using Identity.
 To ensure that the Identity database is seeded when the application starts, I added the statement down to the Configure method of the Startup class.
+
+Applying a Basic Authorization Policy
+Now that I have configured ASP.NET Core Identity. I can apply an authorization policy to the parts of the application that I want to protect. I am going to use the most basic authorization policy, which is to allow access to any authenticated user. Although this can be a useful policy in real applications as well, there are also options for creating finer-grained authorization controls as we'll see later, but since the SportsStore application has only one user, distingushing anonymous and authenticated request is sufficient.
+The Authorize attribute is used to restrict access to action methods, and I use it to protect the Administrative actions of the application.
+I don't want to stop unauthenticated users from accessing the other action methods in the Order controller, so I have applied the Authorize attribute onl to the List and MarkShipped methods. I want to protect all of the action methods defined by the Admin controller, and I can do this by applying the Authorize attribute to the controller class, which then applies the Authorization policy to all the action methods it contains.
