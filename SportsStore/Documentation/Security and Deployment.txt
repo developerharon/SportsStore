@@ -21,4 +21,16 @@ Like other ASP.NET Core features, Identity is configured in the Startup class. W
 In the ConfigureServices method, I extended the Entity Framework Core configuration to register the context class and used the AddIdentity method to set up the Identity services using the built-in classes to represent users and roles. In the Configure method, I called the UseAuthentication method to set up the components that will interecept requests and responeses to implement the security policy.
 
 Creating and Applying the Database Migration
-The basic
+The basic configuration is in place, and it is time to use the Entity Framework migrations feature to define the schema and apply it to the database. Open cmd and run the following command in the SportsStore project folder to create a new migration for the Identity database:
+dotnet ef migrations add Initial --context AppIdentityDbContext
+The important difference from previous database commands is that I have used the --context argument to specify the name of the context class associated with the database and I want to work with, which is AppIdentityDbContext. When you have multiple databases in the application, it is important to ensure that you are working with the right context class.
+Once Entity Framework Core has generated the initial migrations, run the following command to create the database and run the migrations command:
+dotnet ef database update --context AppIdentityDbContext
+The result is a new LocalDb database called Identity that you can inspect using Visual Studio SQL server object explorer.
+
+Defining the Seed Data
+I am going to explicitly create the Admin user by seeding the databse when the application starts. I added a class file called IdentitySeedData.cs to the Models folder and defined the a static class.
+This code uses the UserManager<T> class, which is provided as a service by ASP.NET Core Identity for managing users. The database is searched for the Admin user account, which is created - with the password of Secret123$ - if it is not present. Do not change the hard-coded password in this example because Identity has a validation policy that requires passwords to contain a number and range of characters. We'll see later how to change the validation settings.
+
+Caution: Hard-Coding the details of the administrator account is often required so that  you can log into an application once it has been deployed and start administering it. When you do this, you must remember to change the password for the account you have created. We'll see later how to change password using Identity.
+To ensure that the Identity database is seeded when the application starts, I added the statement down to the Configure method of the Startup class.
