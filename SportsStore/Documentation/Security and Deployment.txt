@@ -1,0 +1,4 @@
+﻿Chapter 12: SportsStore: Security and Deployment
+In the previous chapter, I added support for administering the SportsStore application, and it probably did not escape your attention that anyone could modify the product catalog if I deploy the application as it is. All they would need to know is that the administration features are availabe using the /Admin/Index and Order/List URLs. In this chapter, I am going to show you how to prevent random people from using the administration functions by password-protecting them. Once I have the security in place, I will show you how to prepare and deploy the SportsStore application into production
+
+Securing the Admnistration Features
