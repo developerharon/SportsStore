@@ -10,3 +10,6 @@ The ASP.NET Identity system is endlessly configurable and extensible and support
 Creating the Context Class
 I need to create a database context file that will act as the bridge between the database and the Identity model objects it provides access to. I added a class file called AppIdentityDbContext.cs to the Models folder and used it to define a class.
 Note: You might be used to adding packages to the project to get additional features like security working. But, with the release of ASP.NET Core 2, the NuGet packages required for Identity are already included in the project through the meta-package that was added to the SportsStore.csproj file as part of the project template.
+The AppIdentityDbContext class is derived from IdentityDbContext, which provides Identity-specific features for Entity Framework Core. For the type parameter, I used the IdentityUser class, which is the built-in class used to represent users. Later we look at how to use a custom class that you can extend to add extra information about the users in your application.
+
+Defining the Connection String
