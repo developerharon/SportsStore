@@ -2,7 +2,7 @@
 
 namespace SportsStore.Models.ViewModels
 {
-    public class LoginModelcs
+    public class LoginModel
     {
         [Required]
         public string Name { get; set; }
