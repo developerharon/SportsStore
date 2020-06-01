@@ -102,4 +102,6 @@ Note: I have not added a unit test for this action method. Doing so would only b
 That is the only change that is required because the Edit action method is already  set up to receive Product objects from the model binding system and store them in the database. You can test this functionality by starting the application, navigate to /Admin/Index, clicking the Add Product button, and populating and submitting the form. The details you specify in the form will be used to create a new product in the database, which will then appear in the list.
 
 Deleting Products
-Addin
+Adding support for deleting items is also simple. The first step is to add a new method to the IProductRepository interface.
+Next, I implement this method in the Entity Framework Core repository class, EFProductRepository.cs.
+The final step is to implement a Delete action method in the Admin controller. This action method should support only POST requests because deleting objects is not an idempotent operation. As we'll see later, browsers and caches are free to make GET requests without the user's explicit consent, so I must be careful to avoid making changes as a consequence of GET requests. 

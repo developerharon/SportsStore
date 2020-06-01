@@ -16,6 +16,17 @@ namespace SportsStore.Models
 
         public IQueryable<Product> Products => context.Products;
 
+        public Product DeleteProduct(int productID)
+        {
+            Product dbEntry = context.Products.FirstOrDefault(p => p.ProductId == productID);
+            if (dbEntry != null)
+            {
+                context.Products.Remove(dbEntry);
+                context.SaveChanges();
+            }
+            return dbEntry;
+        }
+
         public void SaveProduct(Product product)
         {
             if (product.ProductId == 0)
