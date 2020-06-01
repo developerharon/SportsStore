@@ -17,3 +17,8 @@ The next step is to define the connection string that will be for the database. 
 Remember that the connection string has to be defined in a single unbroken line in the appsettings.json file and I shown in multiple lines because of the fixed width of a book page. The addition defines a connection string called SportStoreIdentity that specifies a LocalDB database called Identity
 
 Configuring the Application
+Like other ASP.NET Core features, Identity is configured in the Startup class. We set it up using the context class and connection string defined.
+In the ConfigureServices method, I extended the Entity Framework Core configuration to register the context class and used the AddIdentity method to set up the Identity services using the built-in classes to represent users and roles. In the Configure method, I called the UseAuthentication method to set up the components that will interecept requests and responeses to implement the security policy.
+
+Creating and Applying the Database Migration
+The basic
