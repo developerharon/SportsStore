@@ -91,3 +91,14 @@ The IWebHost environment interface is used to provide information about the envi
 I have also commented out the statements that seed the databases, Which I explain in the "Managing Database Seeding" section.
 
 Applying the Database Migrations
+To set up the database with the schemas required for the application, open a new cmd or powershell, navigate to the project directory. Setting the environement so that the dotnet command-line tool will use the connection strings for Azure requires  setting an environment variable. If yore using cmd, then use this command to set the environement variable instead.
+Run the following commands  in the SportsStore project folder to apply the migrations in the Project to the Azure database
+The environment variables specifies the hosting environment that is used to obtain the connection strings to reach the databases. If these commands do not work, ensure that you have configured the Azure firewall to allow access to your development machine, and that you have copied and modified the connection string.
+
+Managing Database Seeding
+The statements we commented out earlier in the Startup class that seeded the database. We did this because the Entity Framework Core commands used in the previous section to apply the migrations to the database rely on the services set up by the Startup class, which means that, with those statements enabled, the code to seed the database would have been called before the migrations were applied, which would have resulted in an error and prevented the migrations from working. This didn't cause a problem when the databases were set up. For the Products database, this was because the SeedData.EnsurePopulated method applies the migrations before seeding the data and because I didn't add the Identity seed data to the application until after I had applied migrations to the database.
+For the production environment, I want to take a different approach to seed data. For the user accounts, I am going to populate the database with the administrator account when there is a login attempt. I am going to add a feature to the administration tool for seeding the product databse so that the production system can be populated with the data for testing data or left empty for real data as required.
+Note: Seeding authentication data in a production system should be done with care, and your application should use the features described later to change the password as soon as the application is deployed.
+
+Seeding the Identity Data
+The first way in changing the way that user data is seeding is to simplify the code in the IndenitySeedData class 
