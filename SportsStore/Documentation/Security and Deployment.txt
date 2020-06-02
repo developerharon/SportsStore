@@ -82,13 +82,12 @@ This kind of error page is the last resort, and it is best to keep it as simple 
 Defining the Production Database Settings
 The next step is to create a file that will provide the application with its database connection string in productio. I added a new ASP.NET configuration file called appsettings.production.json to the SportsStore project and added the content show below
 Tip: The Solution Explorer nests this file inside appsetting.json  in the file listing, which you will have to explain if you want to edit the file again later.
+The file is hard to read because connection strings cannot be split across multiple lines. The contents of the file duplicate the connection string seciton of the appsettings.json file but use the Azure connection stringss. (Remember to replace the username and password placeholders.) I have also set the MultipleActiveResultSets to True, which allows multiple concurrent queries and avoids common error condition that arise when performing complex LINQ queries of application data.
+Note: Remove the brace characters when you insert your username and password into the connection string so that you end up with Password=MyPassword. 
 
+Configuring the Application
+Now I can change the Startup class so that the application behaves diffently when in production.
+The IWebHost environment interface is used to provide information about the environment in which the application is running, such as development or production. When the hosting environment is set to Production, then ASP.NET Core will load the appsettings.production.json file and its contents to override the settings in the appsettings.json file, which means that the Entity Framework Core will connect to the Azure databases instead of LocalDB. There are a lot of options available for tailoring the configuration of an application in different environments. 
+I have also commented out the statements that seed the databases, Which I explain in the "Managing Database Seeding" section.
 
-
-
-Product database connection string
-Server=tcp:developerharon-sportsstore.database.windows.net,1433;Initial Catalog=Products;Persist Security Info=False;User ID=developerharon;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
-
-
-Users/Identity connection string
-Server=tcp:developerharon-sportsstore.database.windows.net,1433;Initial Catalog=Users;Persist Security Info=False;User ID=developerharon;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+Applying the Database Migrations
