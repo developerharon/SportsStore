@@ -101,4 +101,8 @@ For the production environment, I want to take a different approach to seed data
 Note: Seeding authentication data in a production system should be done with care, and your application should use the features described later to change the password as soon as the application is deployed.
 
 Seeding the Identity Data
-The first way in changing the way that user data is seeding is to simplify the code in the IndenitySeedData class 
+The first way in changing the way that user data is seeding is to simplify the code in the IndenitySeedData class.
+Rather than obtaining the UserManager<IdentityUser> service itself, the EnsurePopulated method receives the object as an argument. This allows me to intergrate the database seeding in the AccountController class.
+These changes will ensure that the Identity database is seeded everytime that an AccountController object is created to handle an HTTP request. This is not ideal, of course, but there is no good way to seed a database, and this approach will ensure that the application can be administered both in production and development, albeit the cost of some additional database queries.
+
+Seeding the Production Data
