@@ -54,3 +54,40 @@ Testing the Security Policy
 Everything is in place, and you can test the security policy by starting the application and requesting the /Admin/Index URL. Since you are presently unauthenticated and you are try to target the acton that requires authorization, your browser will be redirected to the /Account/Login URL. Enter Admin and Secret123$ as the name and password and submit the form. The account controller will check the credentials you provided with the seed data added to the identity database and - assuming you entered the right details - authenticate you and redirect you back to the /Account/Login URL, to whic hyou now have access.
 
 Deploying the Application
+All the features and functionality for the SportsStore application are in place, so it is time to prepare the application and deploy it into production. Lot's of hosting options are available for ASP.NET Core MVC applications, and the one that I use in this chapter is the Microsoft Azure platform, which I have chosen because it comes from Microsoft and because it offers free accounts, which means you can follow the SportsStore example all the way through, even if you don't want to use Azure for your ow projects.
+Note: You will need an Azure account for this section. If you don't have one, you can create a free one at http://azure.microsoft.com
+
+Creating the Database
+The starting point is to create the database that the SportsStore application will use in production. This is something that you can do as part of the Visual Studio deployment process, but it is a chicken-and-egg situation because you need to know the connection strings for the databases before you deploy, which is the process that creates the databases.
+Caution: The Azure portal changes often as Microsoft adds new features and revises existing ones. The instructions in this section were accure when I wrote them, but the required steps may have changed slightly by the time you read this. The basic approach should still be the same, but the name of data fields and the exact order of steps may require some experimentation to get the right results.
+The simplest approach is to log in to http://portal.azure.com using your Azure account and create the database manually. Once you are logged in, select the SQL Databases resource category and click the Add button to create the new database.
+For the first database, enter the name products, Click the Configure Required Settings link and then the Create a New Server link. Enter a new server name - which must be unique across Azure - and select a database administrator username and password. I entered the server name sportsstorecore2db, with the administrator name of sportsstoreadmin and a password of Secret123$. You will have to use a different server name, and I sugguest that you use a more robutst password. Select a location for your database; click the select button to close the options and then the Create button to create the database itself. Azure will take a few minutes to perform the creation process, after which it will appear in the SQL Database resource category.
+Create another SQL server, this time entering the name identity. You can use the database server that you created a moment ago, rather than creating a new one. THe result is two SQL Server databases hosted by Azue. You will have different database server name and ideally better passwords
+
+Opening Firewall Access for Configuration
+I need to populate the database with their schemas, and the simplest way to do that is by opening Azure firewall access so that I can run the Entity Framework command from my development machine.
+Select either of the database in the SQL datbase resource category,click the tools button, and then click the open in Visual Studio link. Now  click configure your Firewall link, click the Add Client IP button, and then click Save. This allows your current IP address to reach the database server and perform configuration commands (You can inspect the database schema by clicking the open in Visual Studio button, which will open Visual Studio and use the SQL Server Object Explorer to examine the database.)
+
+Getting the Connection Strings
+I will need the connection strings for the new database shortly. Azure provides this information when you click a database in the SQL database resource category through the show the database connection string link. Connection strings are provided for different development platforms, and it is the ADO.NET stirng that are required for .NET application.
+
+Preparing the Application
+I have some basic preparation to do before I can deploy the application, to make it ready for the production environment. In the section that follow, I change the way that errors are displayed and set up the production connection string for the database.
+
+Creating the Error Controller and View
+At the moment, the application is configured to use the developer-friendly error pages, which provide helpful information when a problem occurs. This is not the information that end users should see, so I added a class file called ErrorController.cs to the Controllers folder and used it to define the simple controller.
+The controller defines an Error action method that renders the default view. To provide the controller with the view, I created the Views/Error folder, added a razor file called Error.cshtml and applied some markup
+This kind of error page is the last resort, and it is best to keep it as simple as possible and not rely on shared views, view components, or other rich features. In this case, I have disabled shared layouts and defined a simple HTML document that explain s that there has been an error, without providing any information about what has happened.
+
+Defining the Production Database Settings
+
+
+
+
+
+Product database connection string
+Server=tcp:developerharon-sportsstore.database.windows.net,1433;Initial Catalog=Products;Persist Security Info=False;User ID=developerharon;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+
+
+Users/Identity connection string
+Server=tcp:developerharon-sportsstore.database.windows.net,1433;Initial Catalog=Users;Persist Security Info=False;User ID=developerharon;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
