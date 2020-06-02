@@ -80,7 +80,8 @@ The controller defines an Error action method that renders the default view. To 
 This kind of error page is the last resort, and it is best to keep it as simple as possible and not rely on shared views, view components, or other rich features. In this case, I have disabled shared layouts and defined a simple HTML document that explain s that there has been an error, without providing any information about what has happened.
 
 Defining the Production Database Settings
-
+The next step is to create a file that will provide the application with its database connection string in productio. I added a new ASP.NET configuration file called appsettings.production.json to the SportsStore project and added the content show below
+Tip: The Solution Explorer nests this file inside appsetting.json  in the file listing, which you will have to explain if you want to edit the file again later.
 
 
 
