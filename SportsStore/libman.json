@@ -3,16 +3,8 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "twitter-bootstrap@4.5.0",
-      "destination": "wwwroot/lib/twitter-bootstrap/"
-    },
-    {
       "library": "jquery@3.5.1",
       "destination": "wwwroot/lib/jquery/"
-    },
-    {
-      "library": "fontawesome-iconpicker@3.2.0",
-      "destination": "wwwroot/lib/fontawesome-iconpicker/"
     },
     {
       "library": "jquery-validation-unobtrusive@3.2.11",
@@ -21,6 +13,15 @@
     {
       "library": "jquery-validate@1.19.1",
       "destination": "wwwroot/lib/jquery-validate/"
+    },
+    {
+      "library": "twitter-bootstrap@4.0.0-alpha.6",
+      "destination": "wwwroot/lib/twitter-bootstrap/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "fontawesome-iconpicker@3.2.0",
+      "destination": "wwwroot/lib/fontawesome-iconpicker/"
     }
   ]
 }
