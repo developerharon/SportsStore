@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Net.NetworkInformation;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 
 namespace SportsStore.Models
 {
@@ -15,6 +14,7 @@ namespace SportsStore.Models
         public string Description { get; set; }
 
         [Required]
+        [Precision(14, 2)]
         [Range(0.01, double.MaxValue, ErrorMessage = "PLease enter a positive price")]
         public decimal Price { get; set; }
 

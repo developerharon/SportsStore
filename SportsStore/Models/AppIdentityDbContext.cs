@@ -4,10 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SportsStore.Models
 {
-    public class AppIdentityDbContext : IdentityDbContext<IdentityUser>
+    public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) : IdentityDbContext<IdentityUser>(options)
     {
-        public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) : base(options)
-        {
-        }
     }
 }
